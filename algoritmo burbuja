@@ -1,0 +1,50 @@
+float vector[]=new float[20];
+int menor, actual;
+float a=0;
+void setup() {
+  fullScreen(P3D);
+  inicializar();
+  frameRate(5);
+}
+void draw() {
+  menor=actual;
+  for (int i=actual; i<vector.length; i++) {
+    if (vector[menor]<vector[i]) {
+      menor=i;
+    }
+  }
+  //intercambio
+  float aux=vector[menor];
+  vector[menor]=vector[actual];
+  vector[actual]=aux;
+  actual++;
+  mostrar();
+  if (actual==vector.length)noLoop();
+}
+void mostrar() {
+  background(255);
+  for (int i=0; i<vector.length; i++) { 
+    noFill();
+    strokeWeight(3);
+    pushMatrix();
+    stroke(0);
+    translate(map(i, 0, vector.length, width/vector.length, width), height/2);
+    rotateX(a);
+    rotateY(a);
+    rotateZ(a);
+    box(vector[i]);
+    popMatrix();
+   a+=0.01;
+  }
+}
+void inicializar() {
+  actual=0;
+  menor=0;
+  for (int i=0; i<vector.length; i++) {
+    vector[i]=random(100);
+  }
+}
+void mousePressed() {
+  inicializar();
+  loop();
+}
