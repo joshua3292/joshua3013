@@ -1,0 +1,121 @@
+carros[] carro = new carros[10];
+float[] a = new float[10];
+String[]respuestas =new String[15];
+
+void setup() {
+  fullScreen();
+  background(175);
+      respuestas[0]="verdadero";
+respuestas[1]="falso";
+respuestas[2]="verdadero";
+respuestas[3]="falso";
+respuestas[4]="verdadero";
+respuestas[5]="falso";
+respuestas[6]="verdadero";
+respuestas[7]="falso";
+respuestas[8]="verdadero";
+respuestas[9]="falso";
+respuestas[10]="verdadero";
+respuestas[11]="falso";
+respuestas[12]="verdadero";
+respuestas[13]="falso";
+respuestas[14]="falso";
+
+  for (int i = 1; i<carro.length; i++) {
+    carro[i] = new carros(100, 68*i, 100, 30);
+  }
+}
+void draw()
+{
+  background(100);
+  
+  for (int i = 1; i<carro.length; i++) {
+    carro[i].mostrar();
+    carro[i].mover();
+  }
+  if (mousePressed) {
+    background(255);
+    for (int i=1; i<(carro.length); i++) {
+      for (int j = i+1; j<(carro.length); j++) {
+        if (carro[i].velocidad>carro[j].velocidad) {
+          float carrera = carro[j].velocidad;
+          carro[j].velocidad = carro[i].velocidad;
+          carro[i].velocidad = carrera;
+        }
+      }
+    }
+  }
+
+  inicializar();
+  println("velocidades km/h DESORDENADAS");
+  printArray(a);
+  quickSort(a, 0, a.length-1);
+  println("Velocidades km/h ORDENADAS");
+  printArray(a);
+  println("RESPUESTAS");
+  printArray(respuestas);
+  
+  
+}
+void inicializar()
+{
+  for ( int i = 0; i <a.length; i++) {
+    a[i]=random(100);
+  }
+}
+
+void quickSort(float arr[], int begin, int end) {
+  if (begin < end) {
+    int partitionIndex = partition(arr, begin, end);
+
+    quickSort(arr, begin, partitionIndex-1);
+    quickSort(arr, partitionIndex+1, end);
+  }
+}
+ int partition(float arr[], int begin, int end) {
+  float pivot = arr[end];
+  int i = (begin-1);
+
+  for (int j = begin; j < end; j++) {
+    if (arr[j] <= pivot) {
+      i++;
+
+      float swapTemp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = swapTemp;
+    }
+  }
+
+  float swapTemp = arr[i+1];
+  arr[i+1] = arr[end];
+  arr[end] = swapTemp;
+
+  return i+1;
+}
+class carros {
+
+  float x, y, z, largo, ancho;
+  float velocidad;
+  //float box;
+
+  carros(float _x, float _y, float _largo, float _ancho) {
+    x = _x;
+    y = _y;
+    largo = _largo;
+    ancho = _ancho;
+    velocidad = random(15);
+  }
+
+  void mover() {
+    x+=velocidad;
+    if (x>width) x=0;
+  }
+
+  void mostrar() {
+    fill(0);
+    rectMode(CORNER);
+    rect(x, y, largo, ancho);
+
+    
+  }
+}
